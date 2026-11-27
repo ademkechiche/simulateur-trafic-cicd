@@ -1,0 +1,3 @@
+# Facultatif : graphiques PNG. Le simulateur, les tests et les SVG
+# fonctionnent aussi avec la bibliothèque standard de Python.
+matplotlib>=3.7,<4

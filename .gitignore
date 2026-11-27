@@ -1,0 +1,38 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+*.egg-info/
+build/
+livrables/
+
+.coverage
+.coverage.*
+*.so
+*.pyd
+*.c
+
+# Environnements et caches Python
+.venv/
+venv/
+test_env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Fichiers de construction
+/build/
+/dist/
+/dist_nom_initial/
+*.egg-info/
+
+# Résultats générés
+/resultats/
+/resultats_tp3/
+htmlcov/
+.coverage
+.coverage.*
+
+# Configuration locale et secrets
+.env
+.pypirc

@@ -1,0 +1,37 @@
+test_frequence_fractionnaire (__main__.Regressions.test_frequence_fractionnaire) ... FAIL
+test_longueur_nan (__main__.Regressions.test_longueur_nan) ... FAIL
+test_transfert_premature (__main__.Regressions.test_transfert_premature) ... FAIL
+test_vitesse_infinie (__main__.Regressions.test_vitesse_infinie) ... FAIL
+
+======================================================================
+FAIL: test_frequence_fractionnaire (__main__.Regressions.test_frequence_fractionnaire)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<stdin>", line 12, in test_frequence_fractionnaire
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_longueur_nan (__main__.Regressions.test_longueur_nan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<stdin>", line 10, in test_longueur_nan
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_transfert_premature (__main__.Regressions.test_transfert_premature)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<stdin>", line 18, in test_transfert_premature
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_vitesse_infinie (__main__.Regressions.test_vitesse_infinie)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<stdin>", line 8, in test_vitesse_infinie
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+FAILED (failures=4)

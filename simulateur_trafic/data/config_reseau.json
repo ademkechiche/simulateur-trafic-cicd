@@ -1,0 +1,32 @@
+{
+  "intersections": [
+    {"identifiant": "N", "x": 1, "y": 2},
+    {"identifiant": "O", "x": 0, "y": 1},
+    {"identifiant": "C", "x": 1, "y": 1, "phases": ["N_C", "O_C"], "duree_vert": 25},
+    {"identifiant": "E", "x": 2, "y": 1},
+    {"identifiant": "S", "x": 1, "y": 0},
+    {"identifiant": "D", "x": 3, "y": 0}
+  ],
+  "routes": [
+    {"nom": "N_C", "longueur": 300, "limite_vitesse": 50, "depart": "N", "arrivee": "C"},
+    {"nom": "O_C", "longueur": 250, "limite_vitesse": 40, "depart": "O", "arrivee": "C"},
+    {"nom": "C_E", "longueur": 450, "limite_vitesse": 50, "depart": "C", "arrivee": "E"},
+    {"nom": "C_S", "longueur": 350, "limite_vitesse": 30, "depart": "C", "arrivee": "S"},
+    {"nom": "E_D", "longueur": 600, "limite_vitesse": 70, "depart": "E", "arrivee": "D"},
+    {"nom": "S_D", "longueur": 500, "limite_vitesse": 50, "depart": "S", "arrivee": "D"}
+  ],
+  "vehicules": [
+    {"identifiant": "BUS_001", "type": "bus", "vitesse": 40, "depart": 0, "itineraire": ["N_C", "C_S", "S_D"]},
+    {"identifiant": "CAMION_001", "type": "camion", "vitesse": 45, "depart": 12, "itineraire": ["O_C", "C_E", "E_D"]}
+  ],
+  "generations": [
+    {"prefixe": "NORD", "nombre": 90, "debut": 0, "intervalle": 35,
+     "vehicule": {"type": "voiture", "vitesse": 60, "origine": "N", "destination": "D"}},
+    {"prefixe": "OUEST", "nombre": 90, "debut": 5, "intervalle": 35,
+     "vehicule": {"type": "voiture", "vitesse": 50, "origine": "O", "destination": "D"}},
+    {"prefixe": "POINTE_N", "nombre": 110, "debut": 900, "intervalle": 1,
+     "vehicule": {"type": "voiture", "vitesse": 55, "itineraire": ["N_C", "C_E", "E_D"]}},
+    {"prefixe": "POINTE_O", "nombre": 110, "debut": 900, "intervalle": 1,
+     "vehicule": {"type": "voiture", "vitesse": 45, "itineraire": ["O_C", "C_S", "S_D"]}}
+  ]
+}

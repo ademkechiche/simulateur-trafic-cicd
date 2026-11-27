@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "adem-kechiche-traffic-simulator"
+version = "1.0.0"
+description = "Package Python de simulation de trafic routier"
+readme = "README.md"
+authors = [
+    { name = "Adem Kechiche" }
+]
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = []
+
+[project.optional-dependencies]
+graphiques = ["matplotlib>=3.7,<4"]
+test = ["pytest>=8,<10"]
+
+[project.scripts]
+simulateur-trafic = "simulateur_trafic.main:main"
+
+[tool.setuptools]
+include-package-data = false
+packages = [
+    "simulateur_trafic",
+    "simulateur_trafic.models",
+    "simulateur_trafic.core",
+    "simulateur_trafic.out"
+]
+
+[tool.setuptools.package-data]
+simulateur_trafic = ["data/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra"
