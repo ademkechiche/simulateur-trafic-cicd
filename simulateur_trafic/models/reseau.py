@@ -223,9 +223,20 @@ déplace deux fois pendant un même sous-pas.
         """
         delta_t = nombre_fini(delta_t, "delta_t", strict=True)
         cible = self.temps + delta_t
+        # Un feu partagé par plusieurs intersections n'avance qu'une seule fois.
+        feux = {
+            id(intersection.traffic_light): intersection.traffic_light
+            for intersection in self.intersections.values()
+            if intersection.traffic_light is not None
+        }
         while self.temps < cible - 1e-9:
             self.injecter_vehicules()
             pas = min(1.0, cible - self.temps)
+            # Respecter aussi les transitions plus courtes qu'une seconde.
+            for feu in feux.values():
+                durees = {"RED": feu.red_duration, "GREEN": feu.green_duration,
+                          "ORANGE": feu.orange_duration}
+                pas = min(pas, durees[feu.state] - feu.timer)
             for route in self.routes.values():
                 route.mettre_a_jour_vehicules(pas)
             fin_pas = self.temps + pas
@@ -233,12 +244,23 @@ déplace deux fois pendant un même sous-pas.
                 route = vehicule.route_actuelle
                 if route is None or vehicule.position < route.longueur - 1e-9:
                     continue
+                intersection = self.intersections[route.arrivee]
+                feu = intersection.traffic_light
+                # Le feu contrôle aussi une sortie à la fin de l'itinéraire.
+                if feu is not None and not feu.can_pass():
+                    vehicule.vitesse = 0.0
+                    continue
                 if vehicule.prochaine_route is None:
                     route.retirer_vehicule(vehicule)
                     vehicule.heure_arrivee = fin_pas
                     vehicule.vitesse = 0.0
-                elif self.intersections[route.arrivee].autorise(route.nom, self.temps):
+                elif intersection.autorise(route.nom, self.temps):
                     vehicule.changer_de_route(self.routes[vehicule.prochaine_route])
+                else:
+                    vehicule.vitesse = 0.0
+            # Les véhicules ont été traités avec l'état du début du sous-pas.
+            for feu in feux.values():
+                feu.update(pas)
             self.temps = fin_pas
 
     def etat(self) -> dict:
