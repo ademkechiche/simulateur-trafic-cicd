@@ -76,7 +76,7 @@ class TrafficLight:
 
     def can_pass(self) -> bool:
         """Autorise le passage uniquement au vert."""
-        return self.state == "GREEN"
+        return self.state != "RED"
 
     def reset(self) -> None:
         """Replace le feu au rouge avec un compteur nul."""
