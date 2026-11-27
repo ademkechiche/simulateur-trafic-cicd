@@ -3,6 +3,7 @@
 from dataclasses import dataclass, field
 from math import isfinite
 from .validation import nombre_fini
+from ..traffic_lights import TrafficLight
 
 
 @dataclass
@@ -16,6 +17,7 @@ class Intersection:
         phases (list[str]): Routes entrantes autorisées successivement ; vide pour un passage libre.
         duree_vert (float): Durée finie strictement positive de chaque phase, en secondes.
         decalage (float): Décalage fini du cycle en secondes, éventuellement négatif.
+        traffic_light (TrafficLight | None): Feu additionnel contrôlant le franchissement.
 
     Raises:
         ValueError: Si l'identifiant est vide ou une valeur numérique non finie ou hors borne.
@@ -28,6 +30,7 @@ class Intersection:
     phases: list[str] = field(default_factory=list)
     duree_vert: float = 20.0
     decalage: float = 0.0
+    traffic_light: TrafficLight | None = None
 
     def __post_init__(self) -> None:
         """Valide les paramètres du feu et les coordonnées après création de la dataclass.
@@ -41,6 +44,10 @@ class Intersection:
         """
         if not self.identifiant:
             raise ValueError("Identifiant requis.")
+        if isinstance(self.traffic_light, dict):
+            self.traffic_light = TrafficLight(**self.traffic_light)
+        if self.traffic_light is not None and not isinstance(self.traffic_light, TrafficLight):
+            raise ValueError("traffic_light doit être un TrafficLight ou None.")
         self.duree_vert = nombre_fini(self.duree_vert, "duree_vert", strict=True)
         for nom in ("x", "y", "decalage"):
             valeur = getattr(self, nom)
@@ -59,6 +66,8 @@ class Intersection:
         Returns:
             bool: Résultat de l’opération.
         """
+        if self.traffic_light is not None and not self.traffic_light.can_pass():
+            return False
         if not self.phases:
             return True
         indice = int((temps + self.decalage) // self.duree_vert) % len(self.phases)
